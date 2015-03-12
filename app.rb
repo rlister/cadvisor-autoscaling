@@ -54,7 +54,7 @@ get '/' do
 end
 
 ## list instances and containers for this auto-scaling group
-get '/:group' do
+get '/groups/:group' do
   @instances = Hash.new { |h, k| h[k] = {} }
 
   ## get instances for this auto_scaling group
