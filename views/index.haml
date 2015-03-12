@@ -1,0 +1,12 @@
+%div.container
+  %div.container.col-md-6.col-md-offset-3
+    %ul.list-group
+    - @groups.each do |group|
+      - name = group.auto_scaling_group_name
+      %li.list-group-item
+        %span.text-primary
+          %a{href: "/#{name}"}= name
+        %span.pull-right
+          %span.text-muted= group.launch_configuration_name
+          - group.instances.inject({}) { |h,i| h[i.lifecycle_state] = h.fetch(i.lifecycle_state, 0) + 1; h }.each do |state, count|
+            %span{class: [ 'label', "label-#{state_color(state)}" ]}= count

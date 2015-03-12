@@ -1,0 +1,27 @@
+- now = Time.now.utc.to_datetime
+
+%div.container
+  - if @error
+    %div.alert.alert-error
+      = @error
+
+  %div.container
+    - @instances.each do |id, i|
+      %div.col-md-6
+        %ul.list-group
+          - state = state_color(i[:auto_scaling].lifecycle_state)
+          %li{class: [ 'list-group-item', "list-group-item-#{state}" ]}
+            %span.lead.text-primary
+              = i[:ec2].public_ip_address
+            %span.pull-right
+              %span.text-muted= human_datetime_diff(now, i[:ec2].launch_time.to_datetime)
+              &#9702;
+              %span.text-info= i[:auto_scaling].launch_configuration_name
+          - i[:containers].each do |_, container|
+            %li.list-group-item
+              %span.text-primary= container['aliases'][0]
+              - stats = container['stats'].last
+              %span.pull-right
+                %span.text-muted= human_datetime_diff(now, DateTime.parse(container['spec']['creation_time']))
+                &#9702;
+                %span.text-info #{stats['memory']['usage'].to_i/(1024*1024)}MB
