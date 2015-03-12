@@ -63,11 +63,13 @@ get '/:group' do
   end
 
   ## get ec2 details for instances
-  ec2.describe_instances(instance_ids: @instances.keys).map(&:reservations).flatten.map(&:instances).flatten.each do |instance|
-    @instances[instance.instance_id][:ec2] = instance
+  unless @instances.empty?
+    ec2.describe_instances(instance_ids: @instances.keys).map(&:reservations).flatten.map(&:instances).flatten.each do |instance|
+      @instances[instance.instance_id][:ec2] = instance
 
-    ## get containers from cadvisor
-    @instances[instance.instance_id][:containers] = cadvisor_containers(instance.public_dns_name)
+      ## get containers from cadvisor
+      @instances[instance.instance_id][:containers] = cadvisor_containers(instance.public_dns_name)
+    end
   end
 
   @title = params[:group]
