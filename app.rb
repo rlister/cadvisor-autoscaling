@@ -49,6 +49,12 @@ end
 ## list all auto-scaling groups
 get '/' do
   @groups = auto_scaling.describe_auto_scaling_groups.auto_scaling_groups
+
+  ## limit groups listed to matching regex
+  if ENV['CADVISOR_AUTOSCALING_MATCH']
+    @groups = @groups.select { |group| group.auto_scaling_group_name.match(ENV['CADVISOR_AUTOSCALING_MATCH']) }
+  end
+
   @title = 'Auto-scaling groups'
   haml :index
 end
