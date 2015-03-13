@@ -33,7 +33,7 @@ bundle exec unicorn -p 3000 -c config/unicorn.rb
 
 ## Docker
 
-Comes with A `Dockerfile`. Build your own, or pull from hub.
+Comes with a `Dockerfile`. Build your own, or pull from hub.
 
 ```
 docker run -d -e CADVISOR_AUTOSCALING_MATCH='^foo-' -p 3000:3000 rlister/cadvisor-autoscaling
