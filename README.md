@@ -15,12 +15,14 @@ find out what containers are running. Simples.
 Set env vars:
 
 ```
-AWS_DEFAULT_REGION
+AWS_REGION
 AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
 ```
 
 or, actually, don't. Use IAM roles instead like the cool kids.
+Actually, you probably still have to set `AWS_REGION` even
+then. What's up with that, Amazon?
 
 Limit set of autoscaling groups to list by setting
 `CADVISOR_AUTOSCALING_MATCH` to a regex to match group name.
